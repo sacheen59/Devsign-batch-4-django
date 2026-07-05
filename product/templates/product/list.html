@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+</head>
+<body>
+    <a href="{% url 'test' %}">Go to Index Page</a>
+    <h2>List of products</h2>
+    {% for item in products %}
+        <h2>Name: {{item.product_name}}</h2>
+        <h4>Price: {{item.product_price}}</h4>
+        <img src="{{item.image_url}}" alt="{{item.product_name}}">
+        <p>
+            {%if item.is_available %}
+            IN STOCK
+            {% else %}
+            OUT OF STOCK
+            {% endif %}
+        </p>
+    {% endfor %}
+</body>
+</html>
