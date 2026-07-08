@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Category
 
 # Create your views here.
 
@@ -88,4 +89,11 @@ def product_list(request):
     ]
     return render(request, "product/list.html",{
         "products": products
+    })
+
+
+def get_all_categories(request):
+    categories = Category.objects.all()
+    return render(request, "product/category_list.html",{
+        "categories": categories
     })
