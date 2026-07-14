@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Category
 
@@ -97,3 +97,14 @@ def get_all_categories(request):
     return render(request, "product/category_list.html",{
         "categories": categories
     })
+
+def delete_category(request, category_id):
+    try:
+        category = Category.objects.get(id=category_id)
+    except Category.DoesNotExist:
+        return HttpResponse("The product with this category id doesnot exists")
+    category.delete()
+    return redirect("category_list")
+
+
+# localhost:8000/product/delete-category/1

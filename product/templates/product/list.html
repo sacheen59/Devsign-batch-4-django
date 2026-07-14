@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} List page {% endblock %}
+
+{% block main_content %}
     <a href="{% url 'test' %}">Go to Index Page</a>
     <h2>List of products</h2>
     {% for item in products %}
@@ -20,5 +17,4 @@
             {% endif %}
         </p>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
