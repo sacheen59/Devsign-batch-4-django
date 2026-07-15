@@ -98,6 +98,15 @@ def get_all_categories(request):
         "categories": categories
     })
 
+def add_category(request):
+    if request.method == "POST":
+        category_name = request.POST.get('category_name')
+        category = Category.objects.create(category_name=category_name)
+        category.save()
+        return redirect("category_list")
+    
+    return render(request, "product/add_category.html")
+
 def delete_category(request, category_id):
     try:
         category = Category.objects.get(id=category_id)
