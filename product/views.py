@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Category
+from .forms import CategoryForm
 
 # Create your views here.
 
@@ -99,13 +100,20 @@ def get_all_categories(request):
     })
 
 def add_category(request):
+    # if request.method == "POST":
+    #     category_name = request.POST.get('category_name')
+    #     category = Category.objects.create(category_name=category_name)
+    #     category.save()
+    #     return redirect("category_list")
     if request.method == "POST":
-        category_name = request.POST.get('category_name')
-        category = Category.objects.create(category_name=category_name)
-        category.save()
-        return redirect("category_list")
-    
-    return render(request, "product/add_category.html")
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("category_list")
+
+    return render(request, "product/add_category.html", {
+        "form": CategoryForm
+    })
 
 def delete_category(request, category_id):
     try:

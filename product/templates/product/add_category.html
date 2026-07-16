@@ -9,11 +9,10 @@ Add Category
     <div class="container">
         <div class="d-flex justify-content-center align-items-center">
             <div class="col-md-6">
-                <form action="{% url 'add_category' %}" method="post">
+                <form method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="category_name" class="form-label">Category Name</label>
-                        <input type="text" placeholder="Mobile" name="category_name" class="form-control" id="category_name" aria-describedby="emailHelp">
+                        {{form}}
                         <button type="submit" class="btn btn-primary mt-2">
                             Save
                         </button>
