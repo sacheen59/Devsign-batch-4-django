@@ -1,5 +1,6 @@
 <!doctype html>
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Add Category
@@ -11,12 +12,8 @@ Add Category
             <div class="col-md-6">
                 <form method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        {{form}}
-                        <button type="submit" class="btn btn-primary mt-2">
-                            Save
-                        </button>
-                    </div>
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </div>
