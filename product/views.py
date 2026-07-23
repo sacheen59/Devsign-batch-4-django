@@ -110,9 +110,10 @@ def add_category(request):
         if form.is_valid():
             form.save()
             return redirect("category_list")
-
+    else:
+        form = CategoryForm()
     return render(request, "product/add_category.html", {
-        "form": CategoryForm
+        "form": form
     })
 
 def delete_category(request, category_id):

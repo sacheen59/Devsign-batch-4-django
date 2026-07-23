@@ -19,22 +19,30 @@ from .models import Category
 
 class CategoryForm(forms.ModelForm):
     # price = forms.IntegerField()
-
     class Meta:
         model = Category
         fields = ["category_name","description"]
-        # fields = "__all__"
-        # exclude = ["description"]
 
     # field level validation
     def clean_category_name(self):
-        # extract the category_name
         category_name = self.cleaned_data.get('category_name')
-        # check whether the category name already exists in db or not
+        if Category.objects.filter(category_name=category_name).exists():
+            raise forms.ValidationError("The category name already exists.")
         if len(category_name) < 3:
-            raise forms.ValidationError("Category name must be more than 3 characters")
-        # if yes show validation
-        # else return the category_name
+            raise forms.ValidationError("The category name must be greater than 3 characters")
         return category_name
 
-# {'category_name' : value}
+    def clean_description(self):
+        # extract the description
+        description = self.cleaned_data.get("description")
+        # check whether it is more than 10 character or not
+        if len(description) < 10:
+            raise forms.ValidationError("The description must be more than 10 characters")
+        return description
+
+    def clean(self):
+        category_name = self.cleaned_data.get("category_name")
+        description = self.cleaned_data.get("description")
+        if category_name == description:
+            raise forms.ValidationError("Category name and Description must not be same.")
+        return super().clean()
