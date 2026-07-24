@@ -46,3 +46,18 @@ class CategoryForm(forms.ModelForm):
         if category_name == description:
             raise forms.ValidationError("Category name and Description must not be same.")
         return super().clean()
+
+
+class EditCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ['category_name']
+
+    def clean_category_name(self):
+        category_name = self.cleaned_data.get('category_name')
+        if Category.objects.filter(category_name=category_name).exists():
+            raise forms.ValidationError("The category name already exists.")
+        if len(category_name) < 3:
+            raise forms.ValidationError("The category name must be greater than 3 characters")
+        return category_name

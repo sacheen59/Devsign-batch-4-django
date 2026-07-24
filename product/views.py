@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Category
-from .forms import CategoryForm
+from .forms import CategoryForm,EditCategoryForm
 
 # Create your views here.
 
@@ -96,7 +96,8 @@ def product_list(request):
 def get_all_categories(request):
     categories = Category.objects.all()
     return render(request, "product/category_list.html",{
-        "categories": categories
+        "categories": categories,
+        "is_empty": len(categories) <= 0
     })
 
 def add_category(request):
@@ -126,3 +127,17 @@ def delete_category(request, category_id):
 
 
 # localhost:8000/product/delete-category/1
+
+# Edit catgory
+def edit_category(request, category_id):
+    category = Category.objects.get(id=category_id)
+    if request.method == "POST":
+        form = EditCategoryForm(request.POST,instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect("category_list")
+    else:
+        form = EditCategoryForm(instance=category)
+    return render(request, 'product/edit_category_form.html', {
+         'form': form
+        })
