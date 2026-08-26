@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Category
+from .models import Category,Product
 
 # there are two type of forms in django
 # Form => each field should be defined by us
@@ -61,3 +61,9 @@ class EditCategoryForm(forms.ModelForm):
         if len(category_name) < 3:
             raise forms.ValidationError("The category name must be greater than 3 characters")
         return category_name
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = "__all__"

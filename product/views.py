@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Category
-from .forms import CategoryForm,EditCategoryForm
+from .models import Category, Product
+from .forms import CategoryForm,EditCategoryForm, ProductForm
 
 # Create your views here.
 
@@ -141,3 +141,42 @@ def edit_category(request, category_id):
     return render(request, 'product/edit_category_form.html', {
          'form': form
         })
+
+
+def get_all_products(request):
+    products = Product.objects.all()
+    return render(request, 'product/product-list.html', {
+        'products': products
+    })
+
+def add_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("all-products")
+    else:
+        form = ProductForm()
+    return render(request, "product/add_product.html", {
+            "form": form
+    })
+
+def edit_product(request, product_id):
+    product = Product.objects.get(id=product_id)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect("all-products")
+    else:
+        form = ProductForm(instance=product)
+    return render(request, "product/edit_product.html", {
+            "form": form
+    })
+
+
+
+def delete_product(request, product_id):
+    product = Product.objects.get(id = product_id)
+    product.delete()
+    return redirect("all-products")

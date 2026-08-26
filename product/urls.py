@@ -9,6 +9,11 @@ urlpatterns = [
     path('add-category/',views.add_category, name="add_category"),
     path('delete-category/<int:category_id>/', views.delete_category, name="delete_category"),
     path('edit-category/<int:category_id>/', views.edit_category, name="edit_category"),
+
+    path('product_list/', views.get_all_products, name="all-products"),
+    path('add-product/', views.add_product, name="add_product"),
+    path('edit/<int:product_id>/',views.edit_product, name='edit-product'),
+    path('delete/<int:product_id>/', views.delete_product, name="delete-product"),
 ]
 
 # localhost:8000/delete-category/
