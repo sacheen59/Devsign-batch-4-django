@@ -1,0 +1,36 @@
+<!doctype html>
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block title %}
+User || Homepage
+{% endblock %}
+
+{% block main_content %}
+    <!-- carousel start -->
+    {% include 'userpage/includes/carousel.html' %}
+    <!-- carousel end -->
+    <div class="container my-5">
+        <h1 class="text-muted">Latest Products</h1>
+        <!-- product section start -->
+        <div class="row row-cols-1 row-cols-md-4 g-4 my-2">
+            {% for product in products%}
+            <div class="col">
+                    <div class="card">
+                    <img src="{{product.image.url}}" class="card-img-top" alt="{{product.product_name}}" height="200" width="200">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.product_name}}</h5>
+                        <p class="card-text">{{product.product_description|truncatewords:10}}</p>
+                        <p class="card-text fs-5 fw-bold">Rs. {{product.product_price}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-warning">View Details</a>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}
+             </div>
+        <!-- product section end  -->
+    </div>
+{% endblock %}

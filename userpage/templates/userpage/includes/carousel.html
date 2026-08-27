@@ -1,0 +1,64 @@
+<!doctype html>
+{% load static %}
+
+<div
+  id="carouselExampleAutoplaying"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="{% static 'images/fashion.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Latest Fashion</h1>
+        <h5>
+          We will make you branded with our fashion. Let's be branded one..
+        </h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'images/technology.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Technology Gadgets Available</h1>
+        <h5>Different Technology Gadgets are available in our online stores</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'images/sports.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Sports Collection</h1>
+        <h5>Let's play beautiful sports with us and be fit</h5>
+      </div>
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleAutoplaying"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleAutoplaying"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
