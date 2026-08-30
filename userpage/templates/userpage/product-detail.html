@@ -1,0 +1,32 @@
+<!doctype html>
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block title %}
+Product || {{product.product_name}}
+{% endblock %}
+
+{% block main_content %}
+    <div class="container my-5">
+        <!-- product section start -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                    <img src="{{product.image.url}}" class="img-fluid rounded-start" alt="{{product.product_title}}"/>
+                    </div>
+                    <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.product_name}}</h5>
+                        <p class="card-text">{{product.product_description}}</p>
+                        <p class="card-text"><small class="text-body-secondary">Price: {{product.product_price}}</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-success">Add to Cart</a>
+                    </div>
+                    </div>
+            </div>
+    </div>
+        <!-- product section end  -->
+    </div>
+{% endblock %}
