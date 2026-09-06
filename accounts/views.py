@@ -30,7 +30,7 @@ def login_user(request):
             )
             if user is not None:
                 login(request, user)
-                return redirect("homepage")
+                return redirect("all-products")
     else:
         form = LoginForm()
     return render(request, "accounts/login.html", {

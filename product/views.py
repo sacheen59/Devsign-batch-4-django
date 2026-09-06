@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Category, Product
 from .forms import CategoryForm,EditCategoryForm, ProductForm
+from django.contrib.auth.decorators import login_required
+from accounts.auth import admin_only
 
 # Create your views here.
 
@@ -93,6 +95,8 @@ def product_list(request):
     })
 
 
+@login_required
+@admin_only
 def get_all_categories(request):
     categories = Category.objects.all()
     return render(request, "product/category_list.html",{
@@ -100,6 +104,8 @@ def get_all_categories(request):
         "is_empty": len(categories) <= 0
     })
 
+@login_required
+@admin_only
 def add_category(request):
     # if request.method == "POST":
     #     category_name = request.POST.get('category_name')
@@ -117,6 +123,8 @@ def add_category(request):
         "form": form
     })
 
+@login_required
+@admin_only
 def delete_category(request, category_id):
     try:
         category = Category.objects.get(id=category_id)
@@ -128,6 +136,9 @@ def delete_category(request, category_id):
 
 # localhost:8000/product/delete-category/1
 
+
+@login_required
+@admin_only
 # Edit catgory
 def edit_category(request, category_id):
     category = Category.objects.get(id=category_id)
@@ -143,12 +154,16 @@ def edit_category(request, category_id):
         })
 
 
+@login_required
+@admin_only
 def get_all_products(request):
     products = Product.objects.all()
     return render(request, 'product/product-list.html', {
         'products': products
     })
 
+@login_required
+@admin_only
 def add_product(request):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -161,6 +176,8 @@ def add_product(request):
             "form": form
     })
 
+@login_required
+@admin_only
 def edit_product(request, product_id):
     product = Product.objects.get(id=product_id)
     if request.method == "POST":
@@ -176,6 +193,8 @@ def edit_product(request, product_id):
 
 
 
+@login_required
+@admin_only
 def delete_product(request, product_id):
     product = Product.objects.get(id = product_id)
     product.delete()
