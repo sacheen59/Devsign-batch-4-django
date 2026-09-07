@@ -1,6 +1,8 @@
 from django.shortcuts import redirect
 
 # func = def get_all_categories(request):
+# types of decorator => 3 types: no arguments in decorator and no arguments in function to modify, arguments in function and no arguments in decorator, arguments in function and decorator
+
 def admin_only(func):
     def views_func(request, *args, **kwargs):
         if not request.user.is_staff:

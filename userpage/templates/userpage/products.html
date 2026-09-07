@@ -22,7 +22,7 @@ User || All Products
                         <p class="card-text fs-5 fw-bold">Rs. {{product.product_price}}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="{% url 'product-detail' product.id %}" class="btn btn-warning">View Details</a>
+                        <a href="{{product.get_absolute_url}}" class="btn btn-warning">View Details</a>
                     </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
@@ -23,3 +24,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+    def get_absolute_url(self):
+        return reverse('product-detail', kwargs={'pk': self.pk})
