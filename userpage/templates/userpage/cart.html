@@ -39,7 +39,7 @@ User || Cart Page
             <td>{{item.product.product_price}}</td>
             <td>
               <a href="{% url 'delete-cart-item' item.id %}" class="btn btn-danger">Delete</a>
-              <a href="#" class="btn btn-primary">Order Now</a>
+              <a href="{% url 'order' item.product.id %}" class="btn btn-primary">Order Now</a>
             </td>
           </tr>
           {% endfor %}

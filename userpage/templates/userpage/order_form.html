@@ -1,0 +1,22 @@
+<!doctype html>
+{% extends "user_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Order Form
+{% endblock %}
+
+{% block main_content %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="col-md-6">
+                <h1 class="text-muted">Order Form</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="mt-4 btn btn-primary">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
