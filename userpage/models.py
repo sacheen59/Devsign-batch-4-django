@@ -23,6 +23,10 @@ class Order(models.Model):
         ('way', 'On your Way'),
         ('delivered', 'Delivered')
     )
+    PAYMENT_STATUS = (
+        ('unpaid', 'Unpaid'),
+        ('paid', 'Paid')
+    )
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     total_price = models.IntegerField()
@@ -31,6 +35,7 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     payment_method = models.CharField(choices=PAYMENT_METHOD, default='cash')
     delivery_status = models.CharField(choices=DELIVERY_STATUS, default='pending')
+    payment_status = models.CharField(choices=PAYMENT_STATUS, default="unpaid")
 
     def __str__(self):
         return f"{self.user.username} - order - {self.product.product_name}"

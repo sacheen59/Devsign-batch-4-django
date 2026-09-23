@@ -1,10 +1,17 @@
+import base64
+import json
+import uuid
+
 from django.shortcuts import render,redirect
+from django.urls import reverse
 from product.models import Product
 from django.contrib.auth.decorators import login_required
 from accounts.auth import user_only
 from .models import CartItem,Order
 from django.contrib import messages
 from .forms import OrderForm
+
+from utils.signature import generate_signature
 
 # Create your views here.
 
@@ -69,7 +76,8 @@ def order_now(request,product_id):
         form = OrderForm(request.POST)
         product = Product.objects.get(id=product_id)
         user = request.user
-        cart = CartItem.objects.filter(product=product, user=user)
+        cart_items = CartItem.objects.filter(product=product, user=user)
+        cart = cart_items.first()
         if form.is_valid():
             data = form.cleaned_data
             address = data['address']
@@ -88,12 +96,55 @@ def order_now(request,product_id):
                 delivery_status='pending'
             )
             if payment_method == "esewa":
-                pass
+                cart_id = cart.id if cart else 0
+                return redirect(reverse('esewa_form')+"?o_id="+str(order.id)+"&c_id="+str(cart_id))
             order.save()
-            cart.delete()
+            cart_items.delete()
             return redirect("homepage")
     else:
         form = OrderForm()
     return render(request, "userpage/order_form.html",{
         'form': form
     })
+
+
+
+def esewa_view(request):
+    o_id = request.GET.get('o_id')
+    c_id = request.GET.get('c_id')
+    cart = CartItem.objects.filter(id=c_id).first() if c_id else None
+    order = Order.objects.get(id=o_id)
+
+    uuid_val = uuid.uuid4()
+    secret_key = "8gBm/:&EnhH.1/q"
+    data_to_sign = f"total_amount={order.total_price},transaction_uuid={uuid_val},product_code=EPAYTEST"
+    signature = generate_signature(secret_key, data_to_sign)
+    data = {
+            'amount': order.product.product_price,
+            'total_amount': order.total_price,
+            'transaction_uuid': uuid_val,
+            'product_code': 'EPAYTEST',
+            'signature': signature
+    }
+    return render(request,"userpage/esewaform.html",{
+            'order':order,
+            'cart': cart,
+            'data': data
+        })
+
+
+@login_required
+def esewa_verify(request,order_id, cart_id):
+    data = request.GET.get('data')
+    decoded_data = base64.b64decode(data).decode('utf-8')
+    map_data = json.loads(decoded_data)
+    order = Order.objects.get(id=order_id)
+    cart = CartItem.objects.filter(id=cart_id).first()
+
+    if map_data.get('status') == 'COMPLETE':
+        order.payment_status = 'paid'
+        order.save()
+        if cart:
+            cart.delete()
+
+    return redirect('cart-page')
